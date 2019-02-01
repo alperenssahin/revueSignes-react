@@ -1,0 +1,145 @@
+#container.navBar {
+
+    position: sticky;
+    top: 0px;
+    /*box-shadow: 0px 0px 20px #4e555b;*/
+    background-color: #608bf5;
+    border-right: 3px solid whitesmoke;
+}
+
+#inside.navBar {
+    width: 100%;
+    transition: 0.5s;
+}
+
+.button.navBar {
+
+}
+
+.button.navBar {
+    cursor: pointer;
+}
+
+.navBar i {
+    color: #1d2124;
+}
+
+#res.navBar {
+    background-color: #608bf5;
+    position: absolute;
+    border-right: 3px solid whitesmoke;
+    height: -webkit-fill-available;
+    height: inherit;
+}
+
+@media screen and (max-width: 600px) {
+    .button.navBar {
+        height: 50px;
+        padding: 5px;
+    }
+
+    #res.navBar {
+        background-color: #608bf5;
+        position: absolute;
+        border-right: 3px solid whitesmoke;
+        left:53px;
+        width: 150px;
+    }
+
+    .navBar i {
+        font-size: 40px;
+        color: #323134;
+        transition: 0.5s;
+        /*box-shadow: 0px 0px 10px #1c2440;*/
+    }
+
+    #library.navBar i:hover {
+        color: #fa4638;
+    }
+
+    #appel.navBar i:hover {
+        color: #f5ee2c;
+    }
+
+    #index.navBar i:hover {
+        color: #caf5e3;
+    }
+
+    #presentation.navBar i:hover {
+        color: #ffc7c7;
+    }
+
+    #search.button.navBar i {
+        border: whitesmoke;
+        border-radius: 25px;
+        /*background-color: rgba(10, 10, 210, 0.55);*/
+        color: whitesmoke;
+    }
+
+    #search.button.navBar i:hover {
+        border: whitesmoke;
+        border-radius: 25px;
+        background-color: rgba(245, 245, 245, 0.28);
+        color: whitesmoke;
+    }
+
+    .navBar.marker.search {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .navBar.marker hr {
+        border: 0.005in solid whitesmoke;
+    }
+    .button.text.navBar{
+        display: none;
+    }
+
+
+}
+
+@media screen and (max-width: 300px) {
+    .button.navBar {
+        height: 30px;
+        padding: 3px;
+    }
+
+    .navBar i {
+        font-size: 25px;
+    }
+    #res.navBar {
+        left: 33px;
+        width: 120px;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    #container.navBar{
+    }
+    .button.navBar.container {
+        height: 30px;
+        padding-left: 10px;
+        margin-top: 20px;
+    }
+    .button.inside {
+        display: flex;
+        height: 30px;
+    }
+
+    #search.navBar.button{
+        border :none;
+    }
+    .navBar i {
+        font-size: 25px;
+    }
+    #res.navBar {
+        left: 203px;
+        width: 250px;
+    }
+    .button.text.navBar{
+        color: #1d2124;
+        padding-left: 5px;
+        font-size: 14px;
+    }
+
+}

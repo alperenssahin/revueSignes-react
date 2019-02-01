@@ -1,0 +1,83 @@
+#container.header{
+    width: 100%;
+    background-image: url("title_background.png");
+    background-size: cover;
+    background-position: center;
+    background-color: salmon;
+}
+#title.header {
+    color: #fefff4;
+    text-shadow: 0px 0px 10px #06080a;
+    opacity: 1;
+    transition: 0.5s;
+
+
+}
+#description.header{
+    color: whitesmoke;
+    text-shadow: 0px 0px 7px #06080a;
+    opacity: 1;
+    transition: 0.5s;
+
+}
+.header a {
+    text-decoration: none;
+    text-underline: none;
+}
+
+.filter{
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0);
+    transition: 0.5s;
+}
+.filter:hover{
+    background-color: rgba(255, 255, 255, 0.4);
+}
+#inside.header{
+    padding: 50px;
+    text-align: center;
+    margin: auto;
+}
+@media screen and (min-width: 601px) {
+    #inside.header{
+        padding: 50px;
+    }
+   .header h1 {
+        font-size: 40px;
+    }
+   .header h5{
+       font-size: 15px;
+    }
+}
+
+/* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+@media screen and (max-width: 600px) {
+    #inside.header{
+        padding: 20px;
+    }
+    .header h1 {
+        font-size: 30px;
+    }
+    .header h5{
+        font-size: 8px;
+    }
+    #appel{
+        font-size: 10px;
+    }
+}
+@media screen and (max-width: 400px) {
+    #inside.header{
+        padding: 20px;
+    }
+    .header h1 {
+        font-size: 20px;
+    }
+    .header h5{
+        font-size: 8px;
+    }
+}
+#appel.header{
+    width: 100%;
+    background-color: rgba(241, 241, 241, 0.5);
+    text-align: center;
+}
