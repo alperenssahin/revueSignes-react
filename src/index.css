@@ -1,3 +1,7 @@
 #container.boddy{
     display: flex;
+    width: 100%;
+}
+.contr.content{
+    width: 100%;
 }

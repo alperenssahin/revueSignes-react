@@ -1,0 +1,56 @@
+.text.outside {
+    width: 100%;
+    padding: 40px;
+}
+.text.inside{
+border-left: 3px solid #608bf5;
+    min-height: 200px;
+    padding-left: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .text.inside{
+        width: 100%;
+    }
+    h1.content{
+        color: #091f8e;
+        font-size: 25px;
+    }
+    h5.coordonnateur{
+        font-size: 12px;
+    }
+    p.author{
+        font-size: 8px;
+    }
+    .article.content{
+        font-size: 10px;
+
+    }
+}
+
+@media screen and (min-width: 601px) {
+    .text.inside{
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        max-width: 760px;
+    }
+}
+.numeroName.content{
+    flex-direction: column;
+    display: flex;
+    padding-left: 10px;
+}
+h1.content{
+    color: #091f8e;
+}
+h5.coordonnateur{
+    font-size: 15px;
+}
+p.author{
+    font-size: 15px;
+}
+.article.content{
+    font-size: 18px;
+
+}

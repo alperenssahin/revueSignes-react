@@ -1,6 +1,6 @@
 import React from 'react';
 import './css/header.css';
-
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 export class Header extends React.Component {
     constructor(prop) {
         super(prop);
@@ -8,6 +8,7 @@ export class Header extends React.Component {
             container: {
                 height: window.innerHeight,
             },
+            appelID:2234124,
         };
         // this.handleResize=this.handleResize.bind(this);
     }
@@ -32,9 +33,10 @@ export class Header extends React.Component {
 
     render() {
         return (
+
             <div className="header" id="container" style={this.state.container}>
                 <div className="filter" style={this.state.container}>
-                    <div id="appel" className="header"><a href={this.props.base+'/appel'}>Appel à articles (NUMERO 20)</a></div>
+                    <div id="appel" className="header"><Link to={'/appel/'+this.state.appelID}>Appel à articles (NUMERO 20)</Link></div>
                     <div className="header" id="inside" >
                         <a href={this.props.base}><h1 id="title" className="header">Revue, Discours et Société</h1></a>
                         <h5 id="description" className="header">Revue semestrielle en sciences humaines et sociales
@@ -42,6 +44,7 @@ export class Header extends React.Component {
                     </div>
                 </div>
             </div>
+
         )
     }
 }

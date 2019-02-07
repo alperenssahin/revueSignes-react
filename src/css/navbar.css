@@ -30,6 +30,15 @@
     border-right: 3px solid whitesmoke;
     height: -webkit-fill-available;
     height: inherit;
+    display: none;
+    transition: 0.5s;
+    overflow: scroll;
+}
+.navOutside{
+    background-color: rgba(9, 31, 142, 0.27);
+    display: none;
+    position: absolute;
+
 }
 
 @media screen and (max-width: 600px) {
@@ -44,6 +53,7 @@
         border-right: 3px solid whitesmoke;
         left:53px;
         width: 150px;
+
     }
 
     .navBar i {
@@ -53,19 +63,19 @@
         /*box-shadow: 0px 0px 10px #1c2440;*/
     }
 
-    #library.navBar i:hover {
+    #library.button i:hover {
         color: #fa4638;
     }
 
-    #appel.navBar i:hover {
+    #appel.button i:hover {
         color: #f5ee2c;
     }
 
-    #index.navBar i:hover {
+    #index.button i:hover {
         color: #caf5e3;
     }
 
-    #presentation.navBar i:hover {
+    #presentation.button i:hover {
         color: #ffc7c7;
     }
 
@@ -133,13 +143,26 @@
         font-size: 25px;
     }
     #res.navBar {
-        left: 203px;
+        left: 233px;
         width: 250px;
+
     }
     .button.text.navBar{
         color: #1d2124;
         padding-left: 5px;
         font-size: 14px;
+        padding-top: 3px;
+    }
+    #search.button.container{
+        background-color: whitesmoke;
+        border-radius: 25px;
+        border:2px solid #1d2124;
+        width: 92%;
+
+    }
+    #search.button.container:hover{
+        background-color: #4a4e9d;
+        color: whitesmoke;
     }
 
 }
