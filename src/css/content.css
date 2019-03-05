@@ -52,5 +52,54 @@ p.author{
 }
 .article.content{
     font-size: 18px;
+}
 
+/*********innerText************/
+.inside h1 {
+    color:#091f8e;
+    text-align: left;
+    text-justify: inter-word;
+    hyphens: none;
+}
+h4.auteur-info{
+    color: #323134;
+    font-size: 18px;
+}
+
+h5.auteur-info{
+    color: #323134;
+    font-size: 14px;
+}
+.auteur{
+    color: #323134;
+    font-size: 18px;
+}
+.inside h2.titre{
+    color:#091f8e;
+    font-size: 2.5rem;
+    text-align: left;
+    text-justify: inter-word;
+    hyphens: none;
+}
+
+.textContainer{
+    word-wrap: break-word;
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+}
+@media screen and (max-width: 601px) {
+    .inside h1 {
+        font-size: 1.5rem;
+    }
+    .inside h2.titre{
+        font-size: 1.5rem;
+    }
+    h4.auteur-info{
+        font-size: 12px;
+    }
+
+    h5.auteur-info{
+        font-size: 10px;
+    }
 }

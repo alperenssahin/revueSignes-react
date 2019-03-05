@@ -147,6 +147,8 @@ function widthHeightControl() {
     let f = $('.button.frame');
     let o = $('.navOutside');
     let s =  $('.out.searchBar');
+    let footer = $('.footerContainer');
+    let logos = $('.unilogo')
     o.innerHeight(h);
     f.innerHeight(h);
     r.innerHeight(h);
@@ -154,41 +156,24 @@ function widthHeightControl() {
     s.innerHeight(document.body.scrollHeight);
     console.log(w);
     if (w < 300) {
-        resize(30,120);
-        // n.innerWidth(30);
-        // r.css("left", "33px");
-        // r.innerWidth(120);
-        // o.innerWidth(w-150);
-        // o.css('left',`153px`);
+        resize(30,120,40);
     } else if (w < 600) {
-        resize(50,150);
-        // n.innerWidth(50);
-        // r.css("left", "53px");
-        // r.innerWidth(150);
-        // o.innerWidth(w-200);
-        // o.css('left',`203px`);
+        resize(50,150,40);
     } else if (w < 900) {
-        resize(230,250);
-        // n.innerWidth(230);
-        // r.css("left", "233px");
-        // r.innerWidth(250);
-        // o.innerWidth(w-480);
-        // o.css('left',`483px`);
+        resize(230,250,40);
     } else {
-        resize(230,250);
-        // n.innerWidth(230);
-        // r.css("left", "233px");
-        // r.innerWidth(250);
-        // o.innerWidth(w-480);
-        // o.css('left',`483px`);
+        resize(230,250,300);
     }
-    function resize(nw,rw){
+    function resize(nw,rw,fp){
         s.innerWidth(w);
         n.innerWidth(nw);
         r.css("left", `${nw+3}px`);
         r.innerWidth(rw);
         o.innerWidth(w-rw+nw);
         o.css('left',`${rw+nw+6}px`);
+        footer.innerWidth(w-nw-fp);
+        logos.innerWidth((w-nw-fp)/5);
+        logos.innerHeight((w-nw-fp)/5*0.8);
     }
 }
 

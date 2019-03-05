@@ -6,6 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle'
 import {Header} from './header';
 import {Navbar} from './navbar';
 import {Content} from './content';
+import {Footer} from './footer';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import * as firebase from 'firebase/app';
 import {Search} from './search.js'
@@ -41,6 +42,8 @@ function mainPage({match}) {
             <div className="content contr">
                 <Header base="/"/>
                 <Content url={match.url}/>
+                <hr/>
+                <Footer/>
             </div>
         </div>
     )

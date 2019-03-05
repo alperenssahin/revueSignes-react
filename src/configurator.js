@@ -1,8 +1,14 @@
-export class Config  {
-    constructor(){
+import axios from 'axios'
+import React from 'react';
+export class Config extends React.Component {
+    constructor(props){
+        super(props);
         this.server = this.server.bind(this);
+
     }
+
     server(){
-        return 'http://192.168.1.25:8000'
+        return 'http://localhost:8001';
     }
+
 }

@@ -14,7 +14,7 @@ export class Search extends React.Component {
     }
 
     close(e) {
-        if (e.target.id === "searchContainer") {
+        if (e.target.id === "searchContainer" || e.target.className === "resItem" ) {
             $('.out.searchBar').css('display', 'none');
         }
     }
@@ -73,7 +73,7 @@ class Result extends React.Component {
                         if (article.title.includes(this.state.searchInput)) {
                             if (article.artIndex !== undefined) {
                                 let key = Object.keys(article.artIndex)[0];
-                                console.log(key);
+                                // console.log(key);
                                 let articleOBJ = {textID: article.artIndex[key], art: art};
                                 resObj.artID.push(articleOBJ);
                             }
@@ -96,7 +96,8 @@ class Result extends React.Component {
         let s = $('#searchInput');
         this.setState({searchInput: s.val()});
         if (s.val().length !== 0) {
-            $('.searchBar.result.outside').css('display', 'block');
+            let s =$('.searchBar.result.outside');
+            s.css('display', 'block');
         } else {
             $('.searchBar.result.outside').css('display', 'none');
         }
@@ -119,14 +120,14 @@ class ResItem extends React.Component {
 
     render() {
         if (this.props.data.null === undefined) {
-            console.log(this.props.data);
-            console.log(this.props.num);
+            // console.log(this.props.data);
+            // console.log(this.props.num);
             let article = [];
             let tit = '';
             for (let x of this.props.art) {
                 if(this.props.data[this.props.num] !== undefined) {
                     article.push(<Link to={'/article/'+x.textID}>
-                        < div> {this.props.data[this.props.num].articles[x.art].title}
+                        < div className="resItem"> {this.props.data[this.props.num].articles[x.art].title}
                         </div><br/>
                     </Link>);
 
@@ -136,9 +137,9 @@ class ResItem extends React.Component {
             return (
                 <div>
                     <Link to={'/library/'+this.props.num}>
-                    <h4>{tit}</h4>
+                    <h4 className="resItem">{tit}</h4>
                     </Link>
-                    <h5>{article}</h5>
+                    <h5 >{article}</h5>
                     <hr/>
                 </div>
             )

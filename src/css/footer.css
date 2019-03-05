@@ -1,0 +1,64 @@
+.footerContainer{
+
+
+
+    text-align: center;
+    margin: auto;
+    color: #2a2a2e;
+    font-size: 10px;
+    z-index: 99;
+
+}
+.unilogos{
+
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.unilogos-content{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack:center;
+    -ms-flex-pack:center;
+    justify-content:center;
+    position: relative;
+
+    padding-bottom: 0px;
+    z-index: 0;
+    bottom: 0px;
+}
+.unilogo{
+    height: 80px;
+    border: 1px solid rgb(200,200,200);
+}
+
+.auteurinfo {
+    font-style: italic;
+    color:  #2a2a2e;
+}
+#unilogo1{
+    background-image: url('images/logo/gsu.png');
+    background-size: contain;
+}
+#unilogo2{
+    background-image: url('images/logo/constanta.png');
+    background-size: contain;
+}
+#unilogo3{
+    background-image: url('images/logo/turku.png');
+    background-size: contain;
+}
+#unilogo4{
+    background-image: url('images/logo/nante.png');
+    background-size: contain;
+}
+#unilogo5{
+    background-image: url('images/logo/audlf.png');
+    background-size: contain;
+}
+@media screen and (max-width: 601px) {
+    .unilogos h5 {
+        font-size: 16px;
+    }
+}

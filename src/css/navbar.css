@@ -6,7 +6,16 @@
     background-color: #608bf5;
     border-right: 3px solid whitesmoke;
 }
+/*
+*  index kısmı eklenene kadar  kapalı
+*/
 
+#index.button{
+    display: none;
+}
+#admin.button{
+    display: none;
+}
 #inside.navBar {
     width: 100%;
     transition: 0.5s;
