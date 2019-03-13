@@ -1,8 +1,7 @@
 import React from 'react';
 import './css/header.css';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import {Config} from "./configurator";
-import axios from "axios";
+import * as firebase from 'firebase';
 export class Header extends React.Component {
     constructor(prop) {
         super(prop);
@@ -18,13 +17,18 @@ export class Header extends React.Component {
     componentDidMount() {
         this.handleResize();
         window.addEventListener("resize", this.handleResize.bind(this));
-        let conf = new Config();
-        axios.get(`${conf.server()}/conf/appel`).then(
-            (r) => {
-                const appel = r.data;
-                this.setState({appel: appel});
-                // console.log(num);
-            });
+        // let conf = new Config();
+        // axios.get(`${conf.server()}/conf/appel`).then(
+        //     (r) => {
+        //         const appel = r.data;
+        //         this.setState({appel: appel});
+        //         // console.log(num);
+        //     });
+        firebase.database().ref("/conf/appel").once("value").then((s)=>{
+            console.log(s.val());
+            this.setState({appel: s.val()});
+        });
+
     }
 
     componentWillUnmount() {

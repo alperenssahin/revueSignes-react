@@ -2,7 +2,6 @@ import React from 'react';
 import './css/navbar.css';
 import $ from 'jquery'
 import {NavContent} from './navContent';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 export class Navbar extends React.Component {
     constructor(prop) {
         super(prop);

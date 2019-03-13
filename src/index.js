@@ -8,15 +8,16 @@ import {Navbar} from './navbar';
 import {Content} from './content';
 import {Footer} from './footer';
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
+// import * as firebase from 'firebase/database';
 import {Search} from './search.js'
 const config = {
     apiKey: "AIzaSyDfl5mPOlVX4wA1JCrx0qNkpAycXscF390",
     authDomain: "revue-si.firebaseapp.com",
+    databaseURL: "https://revue-si.firebaseio.com/",
     storageBucket: "gs://revue-si.appspot.com",
 };
 firebase.initializeApp(config);
-
 class Base extends React.Component {
 
     render() {

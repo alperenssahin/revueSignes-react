@@ -1,12 +1,10 @@
 .footerContainer{
 
 
-
     text-align: center;
     margin: auto;
     color: #2a2a2e;
     font-size: 10px;
-    z-index: 99;
 
 }
 .unilogos{
@@ -22,10 +20,8 @@
     -webkit-box-pack:center;
     -ms-flex-pack:center;
     justify-content:center;
-    position: relative;
-
+    /*position: relative;*/
     padding-bottom: 0px;
-    z-index: 0;
     bottom: 0px;
 }
 .unilogo{

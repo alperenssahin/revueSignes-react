@@ -2,7 +2,8 @@ import React from 'react';
 import './css/navbarContent.css';
 import $ from 'jquery'
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import axios from 'axios'
+// import axios from 'axios'
+import * as firebase from 'firebase';
 import {Config} from "./configurator";
 
 export class NavContent extends React.Component {
@@ -41,7 +42,7 @@ export class NavContent extends React.Component {
 export class Items extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {url: null};
+        this.state = {url: null,title:null};
     }
 
     componentDidMount() {
@@ -65,13 +66,25 @@ export class Items extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         let conf = new Config();
         if (prevState.url !== this.state.url) {
-                axios.get(`${conf.server()}/navbar/${this.state.url}`).then(
-                    (r) => {
-                        const title = r.data;
-                        // console.log(title);
-                        this.setState({title});
-                    }
-                );
+            // axios.get(`${conf.server()}/navbar/${this.state.url}`).then(
+            //     (r) => {
+            //         const title = r.data;
+            //         // console.log(title);
+            //         this.setState({title});
+            //     }
+            // );
+            let url;
+            if (this.state.url === "library") {
+                url = 'numero';
+            } else {
+                url = this.state.url;
+            }
+            firebase.database().ref(`/${url}`).once("value").then((s) => {
+                // console.log(s.val());
+                const title = s.val();
+                //         // console.log(title);
+                this.setState({title});
+            });
             console.log(this.state.url, 'changed');
         }
     }
@@ -81,7 +94,11 @@ export class Items extends React.Component {
         // console.log(this.state.title);
         let numeros = this.state.title;
         let count;
-        numeros !== undefined ? count = Object.keys(numeros).length : count = 9999;
+        if (numeros !== undefined && numeros !== null) {
+            count = Object.keys(numeros).length
+        } else {
+            count = 9999;
+        }
         console.log(count);
         if (this.state.url === 'library') {
             for (let y in this.state.title) {

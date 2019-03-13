@@ -4,8 +4,6 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import * as firebase from 'firebase/app';
 import './css/search.css'
 import $ from "jquery";
-import axios from 'axios'
-import {Config} from "./configurator";
 
 export class Search extends React.Component {
     constructor(props) {
@@ -46,14 +44,21 @@ class Result extends React.Component {
     componentDidMount() {
         document.getElementById('searchInput').addEventListener("keyup", this.search.bind(this));
         //burada butun metinler indirilecek
-        let conf = new Config();
-        axios.get(`${conf.server()}/navbar/library`).then(
-            (r) => {
-                const data = r.data;
-                // console.log(title);
-                this.setState({data});
-            }
-        );
+        // let conf = new Config();
+        // axios.get(`${conf.server()}/navbar/library`).then(
+        //     (r) => {
+        //         const data = r.data;
+        //         // console.log(title);
+        //         this.setState({data});
+        //     }
+        // );
+        firebase.database().ref(`/numero`).once("value").then((s)=>{
+            // console.log(s.val());
+            const data = s.val();
+            // console.log(title);
+            this.setState({data});
+        });
+
     }
 
     componentWillUnmount() {

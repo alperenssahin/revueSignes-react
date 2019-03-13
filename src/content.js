@@ -2,11 +2,9 @@ import React from 'react';
 import './css/content.css';
 import $ from 'jquery'
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import axios from 'axios'
-import {Config} from "./configurator";
-import {Items} from './navContent.js'
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
+import 'firebase/database';
 import renderHTML from 'react-render-html';
 
 
@@ -27,13 +25,19 @@ export class Content extends React.Component {
     }
 
     componentDidMount() {
-        let conf = new Config();
-        axios.get(`${conf.server()}/conf/mainNum`).then(
-            (r) => {
-                const numMain = r.data;
-                this.setState({numMain: numMain});
-                // console.log(num);
-            });
+        // let conf = new Config();
+        // axios.get(`${conf.server()}/conf/mainNum`).then(
+        //     (r) => {
+        //         const numMain = r.data;
+        //         this.setState({numMain: numMain});
+        //         // console.log(num);
+        //     });
+        firebase.database().ref("/conf/mainNum").once('value').then((s)=>{
+            const numMain = s.val();
+            console.log(numMain);
+                    this.setState({numMain: numMain});
+            //         // console.log(num);
+        });
     }
 
 
@@ -79,17 +83,22 @@ export class Content extends React.Component {
 
 
     connection(id) {
-        let conf = new Config();
+        // let conf = new Config();
         // console.log(`${conf.server()}/numeroTitle`);
         if (this.state.numID !== id) {
             this.setState({numID: id});
-            axios.get(`${conf.server()}/numeroTitle/${id}`).then(
-                (r) => {
-                    const num = r.data;
-                    // console.log(num);
-                    this.setState({num});
-                }
-            );
+            // axios.get(`${conf.server()}/numeroTitle/${id}`).then(
+            //     (r) => {
+            //         const num = r.data;
+            //         // console.log(num);
+            //         this.setState({num});
+            //     }
+            // );
+            firebase.database().ref(`/numero/${id}`).once('value').then((s)=>{
+                const num = s.val();
+                //         // console.log(num);
+                        this.setState({num});
+            });
         }
     }
 
@@ -172,19 +181,31 @@ class Article extends React.Component {
 
     componentDidMount() {
         window.addEventListener("click", this.click.bind(this));
-        let conf = new Config();
+        // let conf = new Config();
         // console.log(`${conf.server()}/numeroTitle`);
-        axios.get(`${conf.server()}/article/${this.props.url}`).then(
-            (r) => {
-                const art = r.data;
-                // console.log(num);
+        // axios.get(`${conf.server()}/article/${this.props.url}`).then(
+        //     (r) => {
+        //         const art = r.data;
+        //         // console.log(num);
+        //         this.setState({art});
+        //     }
+        // ).then(
+        //     () => {
+        //         updateIMG();
+        //     }
+        // );
+        if(this.props.url !== undefined){
+            firebase.database().ref(`/articles/${this.props.url}`).once('value').then((s)=>{
+                const art = s.val();
+                console.log(art);
                 this.setState({art});
-            }
-        ).then(
-            () => {
-                updateIMG();
-            }
-        );
+            }).then(
+                ()=>{
+                    updateIMG();
+                }
+            )
+        }
+
 
 
     }
@@ -201,17 +222,28 @@ class Article extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.connection();
-        let conf = new Config();
+        // let conf = new Config();
         if (prevState.artID !== this.state.artID) {
-            axios.get(`${conf.server()}/article/${this.props.url}`).then(
-                (r) => {
-                    const art = r.data;
-                    // console.log(num);
+            // axios.get(`${conf.server()}/article/${this.props.url}`).then(
+            //     (r) => {
+            //         const art = r.data;
+            //         // console.log(num);
+            //         this.setState({art});
+            //     }
+            // ).then(() => {
+            //     updateIMG();
+            // });
+            if(this.props.url !== undefined){
+                firebase.database().ref(`/articles/${this.props.url}`).once('value').then((s)=>{
+                    const art = s.val();
+                    console.log(art);
                     this.setState({art});
-                }
-            ).then(() => {
-                updateIMG();
-            });
+                }).then(
+                    ()=>{
+                        updateIMG();
+                    }
+                )
+            }
         }
 
     }
