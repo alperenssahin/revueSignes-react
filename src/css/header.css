@@ -14,10 +14,11 @@
 
 }
 #description.header{
-    color: whitesmoke;
-    text-shadow: 0px 0px 7px #06080a;
+    color: #155fb1;
+    text-shadow: 0px 0px 7px rgba(165, 180, 255, 0.96);
     opacity: 1;
     transition: 0.5s;
+    font-weight: bold;
 
 }
 .header a {
@@ -27,7 +28,7 @@
 
 .filter{
     width: 100%;
-    background-color: rgba(128, 128, 128, 0);
+    background-color: rgba(255, 255, 255, 0.3);
     transition: 0.5s;
 }
 .filter:hover{
