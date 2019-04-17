@@ -8,6 +8,8 @@ import {Navbar} from './navbar';
 import {Content} from './content';
 import {Footer} from './footer';
 import {BrowserRouter as Router, Route} from "react-router-dom";
+import {Admin} from './admin/admin.js';
+
 import * as firebase from 'firebase';
 // import * as firebase from 'firebase/database';
 import {Search} from './search.js'
@@ -33,7 +35,7 @@ class Base extends React.Component {
     }
 }
 function adminPage() {
-    return <div>Admin page</div>;
+    return <Admin/>;
 }
 
 function mainPage({match}) {
