@@ -99,7 +99,7 @@ export class Items extends React.Component {
         } else {
             count = 9999;
         }
-        console.log(count);
+        // console.log(count);
         if (this.state.url === 'library') {
             for (let y in this.state.title) {
                 // console.log(count);

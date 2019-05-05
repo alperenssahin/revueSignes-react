@@ -1,0 +1,71 @@
+.link-menu {
+    padding-right: 11px;
+    padding-left: 10px;
+    border-bottom: 1px solid cornflowerblue;
+}
+.admin-menu-navigation{
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-numero.inside{
+    flex-direction: column;
+    display: flex;
+    padding-left: 10px;
+}
+.numero-element.container{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid coral;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+}
+.numero-element.title{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.numero-element.control-panel{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.numero-element.control-panel{
+    display: flex;
+}
+.remove-button{
+    color: crimson;
+    cursor: pointer;
+}
+.edit-button{
+    color: #155fb1;
+    cursor: pointer;
+}
+.edit-button:hover{
+    color: #154283;
+}
+.remove-button:hover{
+    color: #b11435;
+
+}
+.admin-numero.new-numero.container{
+    display: flex;
+    justify-content: center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.new-numero.title{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bold;
+}
+.new-numero.icon{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.new-numero-button{
+    color:#608bf5;
+    cursor: pointer;
+}
+.new-numero-button:hover{
+    color: #4f63bc;
+}

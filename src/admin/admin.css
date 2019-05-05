@@ -20,7 +20,12 @@
     border-radius: 10px;
     /*border: 2px solid #608bf5;*/
     box-shadow: 0px 0px 10px #c6c5af;
+    overflow: scroll;
 }
 .inside.admin{
     margin: 20px 10px 20px 10px;
+}
+.admin.top{
+    display: flex;
+    justify-content: space-between;
 }

@@ -153,7 +153,7 @@ function widthHeightControl() {
     r.innerHeight(h);
     c.innerHeight(h);
     s.innerHeight(document.body.scrollHeight);
-    console.log(w);
+    // console.log(w);
     if (w < 300) {
         resize(30,120,40);
     } else if (w < 600) {
