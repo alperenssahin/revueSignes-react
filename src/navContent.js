@@ -103,8 +103,10 @@ export class Items extends React.Component {
         if (this.state.url === 'library') {
             for (let y in this.state.title) {
                 console.log(count);
-                row.push(<Item url={'/library/' + y} order={(count) - this.state.title[y].ord}
-                               text={this.state.title[y].title}/>);
+                if(this.state.title[y].publish){
+                    row.push(<Item url={'/library/' + y} order={(count) - this.state.title[y].ord}
+                                   text={this.state.title[y].title}/>);
+                }
             }
         } else {
             for (let y in this.state.title) {
