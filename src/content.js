@@ -7,7 +7,6 @@ import 'firebase/storage';
 import 'firebase/database';
 import renderHTML from 'react-render-html';
 
-
 export class Content extends React.Component {
     constructor(props) {
         super(props);
@@ -257,9 +256,10 @@ class Article extends React.Component {
 function updateIMG() {
     $.each($('img'), (i, v) => {
         const storage = firebase.storage();
-        console.log('workk');
+        // console.log('workk');
         // console.log(v.src);
         if (v.src.split('://')[0] !== 'https') {
+            //why secure http  is a problem?
             const gsReference = storage.refFromURL(`gs://revue-si.appspot.com/album/${v.id}`);
             gsReference.getDownloadURL().then(function (url) {
                 return url;

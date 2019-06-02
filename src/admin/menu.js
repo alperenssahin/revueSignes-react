@@ -4,7 +4,8 @@ import $ from 'jquery'
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import * as firebase from 'firebase';
 import {AdminNumeroPane,NumeroDataPage} from './numeroControlPanel.js'
-
+import {ArticleControlPage} from './articleControl.js';
+import {NewArticlePage} from './newarticlepage.js';
 export class Menu extends React.Component {
     constructor(prop) {
         super(prop);
@@ -14,9 +15,14 @@ export class Menu extends React.Component {
         return (<AdminNumeroPane/>);
     }
     dataNum({match}){
-        return (<NumeroDataPage numState={match.params.id}/>);
+        return (<NumeroDataPage numState={match.params.id} numKey={match.params.num}/>);
     }
-
+    articleSelected({match}){
+        return(<ArticleControlPage numKey={match.params.id}/>);
+    }
+    newArticle({match}){
+        return(<NewArticlePage numKey={match.params.id}/>);
+    }
     render() {
         return (<div className="admin-menu container">
             < div className="admin-menu inside">
@@ -31,7 +37,10 @@ export class Menu extends React.Component {
                 <hr/>
                 <div className="admin-menu content">
                     <Route exact path="/admin/numero" component={this.getNum}/>
-                    <Route path="/admin/numero/:id" component={this.dataNum}/>
+                    <Route path="/admin/numero/:id/:num" component={this.dataNum}/>
+                    <Route exact path="/admin/numero/:id" component={this.dataNum}/>
+                    <Route exact path="/admin/numero/articles/:id" component={this.articleSelected}/>
+                    <Route exact path="/admin/numero/articles/new/:id" component={this.newArticle}/>
                     <Route path="/admin/appel" component={this.getApp}/>
                     <Route path="/admin/presentation" component={this.getPre}/>
                     <Route path="/admin/users" component={this.getUsr}/>

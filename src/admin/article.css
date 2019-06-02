@@ -1,0 +1,43 @@
+.article-element.container{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid coral;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+}
+.article-element.title{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.article-element.control-panel{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.article-element.control-panel{
+    display: flex;
+}
+
+
+.admin-article.new-article.container{
+    display: flex;
+    justify-content: center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.new-article.title{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bold;
+}
+.new-article.icon{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.new-article-button{
+    color:#608bf5;
+    cursor: pointer;
+}
+.new-article-button:hover{
+    color: #4f63bc;
+}

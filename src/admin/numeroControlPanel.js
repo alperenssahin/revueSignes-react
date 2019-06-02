@@ -27,7 +27,7 @@ export class AdminNumeroPane extends React.Component {
             if (this.state.numState) {
                 for (let key in this.state.numeros) {
                     let base = this.state.numeros[key];
-                    inside.push(<NumeroElement key={key} title={base.title} data={base}/>)
+                    inside.push(<NumeroElement numKey={key} title={base.title} data={base}/>)
                 }
             } else {
                 inside = 'Loading...';
@@ -58,37 +58,66 @@ class NumeroElement extends React.Component {
 
     render() {
         return (
-            <div className="numero-element container" id={this.props.key} style={{order: (999 - this.props.data.ord)}}>
+            <div className="numero-element container" id={this.props.numKey}
+                 style={{order: (999 - this.props.data.ord)}}>
                 <div className="numero-element title">{this.props.title}</div>
                 <div className="numero-element control-panel">
-                    <RemoveNumero key={this.props.key}/>
-                    <EditNumero key={this.props.key}/>
+                    <RemoveNumero numKey={this.props.numKey} title={this.props.title}/>
+                    <EditNumero numKey={this.props.numKey}/>
+                    <ArticlesEdit numKey={this.props.numKey}/>
                 </div>
             </div>)
     }
 }
-
+class ArticlesEdit extends React.Component{
+    constructor(prop){
+        super(prop);
+    }
+    render() {
+        return (<Link to={"/admin/numero/articles/" + this.props.numKey} className="article-button container"><i
+            className="material-icons article-button">
+            library_books
+        </i></Link>);
+    }
+}
 class RemoveNumero extends React.Component {
     constructor(prop) {
         super(prop);
     }
+    componentDidMount() {
+        document.getElementById("remove-"+this.props.numKey).addEventListener("click", this.removeHandle.bind(this));
 
+    }
+
+    componentWillUnmount() {
+            document.getElementById("remove-"+this.props.numKey).removeEventListener("click", this.removeHandle.bind(this));
+
+    }
+    removeHandle(){
+        if(window.confirm('Voulez-vous supprimer ce numero :'+this.props.title)){
+            let db = firebase.database();
+            db.ref(`/numero/${this.props.numKey}`).remove().then(()=>{
+                window.location = '/admin/numero';
+            });
+        }
+    }
     render() {
-        return (<div className="remove-button container"><i className="material-icons remove-button">
+        return (<div className="remove-button container" id={"remove-"+this.props.numKey}><i className="material-icons remove-button">
             restore_from_trash
         </i></div>);
     }
 }
 
 class EditNumero extends React.Component {
-    constructor(prop) {
-        super(prop);
+    constructor(props) {
+        super(props);
     }
 
     render() {
-        return (<div className="edit-button container"><i className="material-icons edit-button">
+        return (<Link to={"/admin/numero/edit/" + this.props.numKey} className="edit-button container"><i
+            className="material-icons edit-button">
             edit
-        </i></div>);
+        </i></Link>);
     }
 }
 
@@ -107,14 +136,35 @@ class NewNumero extends React.Component {
 }
 
 export class NumeroDataPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {error: ''};
+    constructor(prop) {
+        super(prop);
+        this.state = {
+            message: '',
+            title: 'loading...',
+            coordonnateur: '',
+            publish: false,
+            ord: null,
+            articles: null,
+            numKey:this.props.numKey,
+        };
     }
 
     componentDidMount() {
         if (this.props.numState === 'new') {
             document.getElementById('submit-new-numero').addEventListener("click", this.submitHandle.bind(this));
+        }
+        if (this.props.numState === 'edit') {
+            document.getElementById('submit-edit-numero').addEventListener("click", this.editHandle.bind(this));
+            firebase.database().ref(`/numero/${this.props.numKey}`).once('value').then((s) => {
+                // console.log(s.val());
+                this.setState({
+                    articles: s.val().articles,
+                    coordonnateur: s.val().coordonnateur,
+                    publish: s.val().publish,
+                    ord: s.val().ord,
+                    title: s.val().title,
+                });
+            });
         }
     }
 
@@ -122,14 +172,18 @@ export class NumeroDataPage extends React.Component {
         if (this.props.numState === 'new') {
             document.getElementById('submit-new-numero').removeEventListener("click", this.submitHandle.bind(this));
         }
+        if (this.props.numState === 'edit') {
+            document.getElementById('submit-edit-numero').removeEventListener("click", this.editHandle.bind(this));
+
+        }
     }
 
     submitHandle() {
         if ($('#new-numero-title-ınput').val() === '') {
-            this.setState({error: 'Titre est null'});
+            this.setState({message: 'Titre est null'});
             return;
         } else {
-            this.setState({error: ''});
+            this.setState({message: ''});
             let db = firebase.database();
             let data = {
                 articles: {},
@@ -137,7 +191,7 @@ export class NumeroDataPage extends React.Component {
                 publish: $('#new-numero-publish-ınput').is(":checked"),
                 coordonnateur: $('#new-numero-coordonnateur-ınput').val(),
                 ord: null,
-            }
+            };
             db.ref('/conf/numCount').once('value').then(s => {
                 data.ord = s.val();
                 console.log(data);
@@ -146,24 +200,64 @@ export class NumeroDataPage extends React.Component {
                         db.ref('/conf/numCount').set(data.ord + 1);
                     });
                 }
-            );
+            ).then(()=>{
+                window.location = '/admin/numero';
+            });
 
         }
+    }
+
+    editHandle() {
+        if ($('#new-numero-title-ınput').val() === '') {
+            this.setState({message: 'Titre est null'});
+            return;
+        } else {
+            if(this.state.numKey !== undefined){
+                this.setState({message: ''});
+                let db = firebase.database();
+                db.ref(`/numero/${this.state.numKey}/title`).set(this.state.title).then(() => {
+                    this.setState({message: 'Title Updated'});
+                    db.ref(`/numero/${this.state.numKey}/publish`).set(this.state.publish).then(() => {
+                        this.setState({message: 'Publish Updated'});
+                        db.ref(`/numero/${this.state.numKey}/coordonnateur`).set(this.state.coordonnateur).then(() => {
+                            this.setState({message: 'Coordonnateur Updated'});
+                            window.location = '/admin/numero';
+                        });
+                    });
+                });
+
+
+            }else{
+                this.setState({message: 'Numero ID is undefined'});
+            }
+
+
+
+        }
+    }
+
+    changeValueState(state, value) {
+        let data = {};
+        data[state] = value;
+        this.setState(data);
     }
 
     render() {
         if (this.props.numState === 'new') {
             return (<div className="new-numero-page container">
                 <div className="new-numero-page inside">
-                    <div className="new-numero-page error">{this.state.error}</div>
+                    <div className="new-numero-page error">{this.state.message}</div>
                     <div>
                         <strong>Titre:</strong><input type="text" id="new-numero-title-ınput"
                                                       className="new-numero text-input"/></div>
                     <div><strong>Coordonnateur:</strong><input type="text" id="new-numero-coordonnateur-ınput"
-                                                               value="Coordonnateur de ce numéro : "
-                                                               className="new-numero text-input"/>
+                                                               value={this.state.coordonnateur}
+                                                               className="new-numero text-input"
+                                                               onChange={e => {
+                                                                   this.changeValueState('coordonnateur', e.target.value);
+                                                               }}/>
                     </div>
-                    <div><strong>Publish:</strong><input type="checkbox" id="new-numero-publish-ınput"/></div>
+                    <div><strong>Publish :</strong><input type="checkbox" id="new-numero-publish-ınput"/></div>
                     <div>
                         <button id="submit-new-numero">Submit</button>
                     </div>
@@ -171,7 +265,31 @@ export class NumeroDataPage extends React.Component {
             </div>);
         }
         if (this.props.numState === 'edit') {
-            return (<div>hello</div>);
+            return (<div className="edit-numero-page container">
+                <div className="edit-numero-page inside">
+                    <div className="edit-numero-page error">{this.state.message}</div>
+                    <div>
+                        <strong>Titre:</strong><input type="text" id="edit-numero-title-ınput"
+                                                      className="edit-numero text-input" value={this.state.title}
+                                                      onChange={e => {
+                                                          this.changeValueState('title', e.target.value);
+                                                      }}/></div>
+                    <div><strong>Coordonnateur:</strong><input type="text" id="edit-numero-coordonnateur-ınput"
+                                                               value={this.state.coordonnateur}
+                                                               className="edit-numero text-input" onChange={e => {
+                        this.changeValueState('coordonnateur', e.target.value);
+                    }}/>
+                    </div>
+                    <div><strong>Publish : </strong><input type="checkbox" id="edit-numero-publish-ınput"
+                                                           checked={this.state.publish}
+                                                           onClick={e => {
+                                                               this.changeValueState('publish', !this.state.publish)
+                                                           }}/></div>
+                    <div>
+                        <button id="submit-edit-numero">Submit</button>
+                    </div>
+                </div>
+            </div>);
         }
         return (<div></div>);
     }

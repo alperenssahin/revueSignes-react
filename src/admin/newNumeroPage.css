@@ -1,6 +1,15 @@
 .new-numero.text-input{
     width: 100%;
+    margin-bottom: 10px;
 }
 #submit-new-numero{
    float: right;
+}
+
+.edit-numero.text-input{
+    width: 100%;
+    margin-bottom: 10px;
+}
+#submit-edit-numero{
+    float: right;
 }

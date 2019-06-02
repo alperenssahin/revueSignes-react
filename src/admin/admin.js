@@ -24,6 +24,9 @@ export class Admin extends React.Component {
 
         this.heightUpdater();
         this.userCheck();
+        if(this.state.authentication){
+            this.signIn();
+        }
         document.getElementById('signIn').addEventListener("click", this.signIn.bind(this));
         document.getElementById('signOut').addEventListener("click", this.signOut.bind(this));
 
@@ -87,7 +90,7 @@ export class Admin extends React.Component {
     }
 
     signIn() {
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
             .then(function () {
                 var provider = new firebase.auth.GoogleAuthProvider();
                 // In memory persistence will be applied to the signed in Google user
@@ -116,18 +119,14 @@ export class Admin extends React.Component {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
+                console.log(errorMessage);
             }).then(user => {
             console.log(user);
-            firebase.database().ref(`/users/${user.uid}/userRole`).once('value').then((s)=>{
-                console.log(s.val());
-                if(s.val() === 10){
-                    this.setState({userRole:this.state.role[s.val()]});
-                }else{
-                    this.setState({userRole:this.state.role['0']});
-                }
-            });
-            this.setState({user: user});
-            this.setState({authentication: true});
+            if(user !== undefined){
+                this.permissionHandle(user);
+                this.setState({user: user});
+                this.setState({authentication: true});
+            }
         });
 
 
@@ -138,27 +137,52 @@ export class Admin extends React.Component {
             // Sign-out successful.
             // console.log('çıkış yapıyorum');
         }).catch(function (error) {
-            // An error happened.
+            // An message happened.
         }).then(() => {
             this.setState({user: null});
             this.setState({authentication: false});
             this.setState({userRole:this.state.role['0']});
 
         });
+        sessionStorage.removeItem('uid'); // user is undefined if no user signed in
+        sessionStorage.removeItem('displayName');
+        sessionStorage.removeItem('email');
     }
-
+    permissionHandle(user){
+        firebase.database().ref(`/users/${user.uid}/userRole`).once('value').then((s)=>{
+            console.log(s.val());
+            if(s.val() === 10){
+                this.setState({userRole:this.state.role[s.val()]});
+            }else{
+                this.setState({userRole:this.state.role['0']});
+            }
+        });
+    }
     userCheck() {
-        let user = firebase.auth().currentUser;
-        if (user) {
-            // User is signed in.
-            this.setState({user: user});
-            this.setState({authentication: true});
-        } else {
-            // No user is signed in.
-            console.log('no user');
-            this.setState({user: null});
-            this.setState({authentication: false});
-        }
+
+        firebase.auth().onAuthStateChanged((user ) => {
+            sessionStorage.setItem('uid',user.uid); // user is undefined if no user signed in
+            sessionStorage.setItem('displayName',user.displayName);
+            sessionStorage.setItem('email',user.email);
+        });
+        let user = {
+            uid:sessionStorage.getItem('uid'),
+            displayName:sessionStorage.getItem('displayName'),
+            email:sessionStorage.getItem('email'),
+        };
+            if (user.uid !== null) {
+                // User is signed in.
+                console.log(user);
+                this.setState({user: user});
+                this.setState({authentication: true});
+                this.permissionHandle(user);
+            } else {
+                // No user is signed in.
+                console.log('no user');
+                this.setState({user: null});
+                this.setState({authentication: false});
+            }
+
     }
 }
 

@@ -20,6 +20,8 @@ const config = {
     storageBucket: "gs://revue-si.appspot.com",
 };
 firebase.initializeApp(config);
+
+
 class Base extends React.Component {
 
     render() {

@@ -69,3 +69,12 @@
 .new-numero-button:hover{
     color: #4f63bc;
 }
+
+.article-button{
+    color: #e95436;
+    cursor: pointer;
+}
+.article-button:hover{
+    color: #bf4931;
+}
+

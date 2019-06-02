@@ -1,0 +1,13 @@
+.author-control-pane{
+   display: flex;
+}
+.author-control-pane button{
+    margin-left: 10px;
+}
+.new-article-page.inside{
+    display: flex;
+}
+.new-article-page.preview{
+    width: 100%;
+
+}
