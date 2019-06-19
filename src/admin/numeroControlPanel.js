@@ -45,7 +45,18 @@ export class AdminNumeroPane extends React.Component {
             </div>
             <hr/>
             <div className="admin-numero container">
-                <div className="admin-numero inside">{this.state.elements}</div>
+                <div className="admin-numero inside">
+                    <div className={"info-numero"}>
+                        <h5>Published</h5>
+                        <h5>Title</h5>
+                        <div className={"info-numero-control"}>
+                        <h5>Remove</h5>
+                        <h5>Edit</h5>
+                        <h5>Articles</h5>
+                        </div>
+                    </div>
+                    {this.state.elements}
+                </div>
             </div>
         </div>)
     }
@@ -57,10 +68,23 @@ class NumeroElement extends React.Component {
     }
 
     render() {
+        let color;
+        if(this.props.data.publish){
+            color = '#69dd88';
+
+        }else{
+            color = '#ee6c64';
+
+        }
         return (
             <div className="numero-element container" id={this.props.numKey}
                  style={{order: (999 - this.props.data.ord)}}>
-                <div className="numero-element title">{this.props.title}</div>
+                <div className={"numero-element index"}>
+                <div className={"numero-element publish"} style={{color:color}}><i className="material-icons">
+                    fiber_manual_record
+                </i></div>
+                    <div className="numero-element title">{this.props.title}</div>
+                </div>
                 <div className="numero-element control-panel">
                     <RemoveNumero numKey={this.props.numKey} title={this.props.title}/>
                     <EditNumero numKey={this.props.numKey}/>

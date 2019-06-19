@@ -6,7 +6,7 @@ import './newArticlePage.css'
 import '../css/content.css'
 import uuidv1 from 'uuid/v1.js';
 
-export class NewArticlePage extends React.Component {
+export class NewPrensentation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,12 +36,12 @@ export class NewArticlePage extends React.Component {
             author: [],
             title: this.state.title,
             ord: "",
-            artIndex: {},
-        }
+            index: "",
+        };
         $.each($('.auteur-info.name'), (i, v) => {
             data.author.push(v.textContent);
         });
-        firebase.database().ref(`/numero/${this.props.numKey}/articles`).once('value').then(s => {
+        firebase.database().ref(`/presentation`).once('value').then(s => {
             let count = 0;
             if (s.val() !== null) {
                 for (let a in s.val()) {
@@ -53,11 +53,11 @@ export class NewArticlePage extends React.Component {
         Promise.all(this.uploadImage()).then(() => {
             this.setState({processe:75});
             this.uploadHtmlFile().then(() => {
-                data.artIndex['key'] = this.state.fireIndex;
+                data.index = this.state.fireIndex;
                 this.setState({processe:95});
-                firebase.database().ref(`/numero/${this.props.numKey}/articles`).push(data).then(() => {
+                firebase.database().ref(`/presentation`).push(data).then(() => {
                     this.setState({processe:100});
-                    window.location = '/admin/numero/articles/' + this.props.numKey;
+                    window.location = '/admin/presentation';
                 });
             });
         });
@@ -165,27 +165,27 @@ export class NewArticlePage extends React.Component {
         let promises = [];
         let img = $('.new-article-page.preview img');
         let perIm = 50/img.length;
-            for (let v  of img) {
-                let storage = firebase.storage();
-                let storageRef = storage.ref();
-                let imageType = v.src.split(';')[0].split(':')[1].split('/')[1];
-                let uniqueID = uuidv1();
-                let imageName = uniqueID + '.' + imageType;
-                let imagesRef = storageRef.child('album/' + imageName);
-                let message = v.src;
-                v.id = imageName;
-                v.src = "";
-                let s = this.state.processe+perIm;
-                this.setState({processe:s});
-                promises.push(new Promise(resolve => {
-                    imagesRef.putString(message, 'data_url').then(function (snapshot) {
-                        //ilerleme çubuğu koy
-                        //bu kısmı kayıt esnasında yürüt
-                        resolve();
-                    });
-                }));
-            }
-            return promises;
+        for (let v  of img) {
+            let storage = firebase.storage();
+            let storageRef = storage.ref();
+            let imageType = v.src.split(';')[0].split(':')[1].split('/')[1];
+            let uniqueID = uuidv1();
+            let imageName = uniqueID + '.' + imageType;
+            let imagesRef = storageRef.child('album/' + imageName);
+            let message = v.src;
+            v.id = imageName;
+            v.src = "";
+            let s = this.state.processe+perIm;
+            this.setState({processe:s});
+            promises.push(new Promise(resolve => {
+                imagesRef.putString(message, 'data_url').then(function (snapshot) {
+                    //ilerleme çubuğu koy
+                    //bu kısmı kayıt esnasında yürüt
+                    resolve();
+                });
+            }));
+        }
+        return promises;
     }
 
 
@@ -213,7 +213,7 @@ class Author extends React.Component {
 
                 <div>
                     <strong className={"author-count"}>
-                    {this.props.count}. Auteur
+                        {this.props.count}. Auteur
                     </strong>
                 </div>
                 <div>

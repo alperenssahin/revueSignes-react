@@ -24,9 +24,12 @@ export class Header extends React.Component {
         //         this.setState({appel: appel});
         //         // console.log(num);
         //     });
-        firebase.database().ref("/conf/appel").once("value").then((s)=>{
-            console.log(s.val());
-            this.setState({appel: s.val()});
+        let db = firebase.database();
+        db.ref("/conf/appel").once("value").then((s)=>{
+            // console.log(s.val());
+            db.ref('/appel/'+s.val()+'/index').once("value").then((s)=>{
+                this.setState({appel: s.val()});
+            });
         });
 
     }

@@ -13,3 +13,24 @@
 #submit-edit-numero{
     float: right;
 }
+.info-numero{
+    display: flex;
+    justify-content: space-between;
+}
+.info-numero h5{
+    font-size: 12px;
+    margin-right: 20px;
+    text-decoration: underline;
+}
+.info-numero-control{
+    display: flex;
+    justify-content: space-between;
+}
+.numero-element.index{
+    display: flex;
+    width: 80%;
+}
+.numero-element.publish{
+    margin-right: 10px;
+}
+

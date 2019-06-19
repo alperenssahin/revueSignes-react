@@ -13,6 +13,7 @@ import {Admin} from './admin/admin.js';
 import * as firebase from 'firebase';
 // import * as firebase from 'firebase/database';
 import {Search} from './search.js'
+import $ from "jquery";
 const config = {
     apiKey: "AIzaSyDfl5mPOlVX4wA1JCrx0qNkpAycXscF390",
     authDomain: "revue-si.firebaseapp.com",

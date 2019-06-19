@@ -1,5 +1,7 @@
 .author-control-pane{
    display: flex;
+    justify-content: center;
+
 }
 .author-control-pane button{
     margin-left: 10px;
@@ -10,4 +12,57 @@
 .new-article-page.preview{
     width: 100%;
 
+}
+img{
+    width: 100%;
+}
+.proocesse-Bar{
+    margin-bottom: 10px;
+    height: 12px;
+    font-size: 10px;
+    color: whitesmoke;
+    font-weight: bold;
+    background-color: rgba(177, 20, 53, 0.49);
+    transition: 0.5s;
+}
+
+.new-article-page.form.row.author{
+    /*border: 1px dashed #4a4e9d;*/
+
+}
+.new-article-page.form.out{
+    margin-right: 30px;
+}
+.author-control-pane.button{
+    cursor: pointer;
+}
+#add-author{
+    color: #154283;
+}
+#remove-author{
+    color: #e95436;
+}
+.author-control-pane.button:hover{
+    background-color: #aaaef5;
+}
+input.form{
+    width: 100%;
+    outline: none;
+    border:none;
+    border-bottom: 2px solid #e95436;
+    background-color: rgba(233, 84, 54, 0);
+    margin-bottom: 10px;
+}
+.author-box{
+    width: 100%;
+}
+.author-count{
+    color: #e95436;
+    font-size: 16px;
+}
+#send-article{
+    background-color: #4a4e9d;
+    color: whitesmoke;
+    float: right;
+    margin-top: 10px;
 }

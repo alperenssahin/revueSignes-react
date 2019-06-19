@@ -29,6 +29,7 @@ export class Admin extends React.Component {
         }
         document.getElementById('signIn').addEventListener("click", this.signIn.bind(this));
         document.getElementById('signOut').addEventListener("click", this.signOut.bind(this));
+        document.getElementById('close-admin-pane').addEventListener("click", this.close.bind(this));
 
 
     }
@@ -36,10 +37,13 @@ export class Admin extends React.Component {
     componentWillUnmount() {
         document.getElementById('signIn').removeEventListener("click", this.signIn.bind(this));
         document.getElementById('signOut').removeEventListener("click", this.signOut.bind(this));
+        document.getElementById('close-admin-pane').removeEventListener("click", this.close.bind(this));
 
 
     }
-
+    close(){
+        window.location = '/';
+    }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevState.user !== this.state.user) {
             if (this.state.user !== null) {
@@ -66,7 +70,11 @@ export class Admin extends React.Component {
     render() {
         return (<div className="outside admin">
             <div className="container admin">
+                <Link to={"/"} id="close-admin-pane" className={"close-admin-pane"}><i className="material-icons">
+                    close
+                </i></Link>
                 <div className="inside admin">
+
                     <div className="top admin">
                         <div className="top-left">
                             {this.state.identifier}

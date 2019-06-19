@@ -1,0 +1,13 @@
+.new-appel-box{
+    width: 100%;
+    display: flex;
+    justify-content: center
+}
+.appel-item-inside{
+    display: flex;
+    justify-content: space-between;
+}
+.remove-appel{
+    cursor: pointer;
+    color: darkred;
+}
