@@ -10,6 +10,7 @@ export class Header extends React.Component {
                 height: window.innerHeight,
             },
             appel:'',
+            appelText:'Bienvenue',
         };
         // this.handleResize=this.handleResize.bind(this);
     }
@@ -17,19 +18,16 @@ export class Header extends React.Component {
     componentDidMount() {
         this.handleResize();
         window.addEventListener("resize", this.handleResize.bind(this));
-        // let conf = new Config();
-        // axios.get(`${conf.server()}/conf/appel`).then(
-        //     (r) => {
-        //         const appel = r.data;
-        //         this.setState({appel: appel});
-        //         // console.log(num);
-        //     });
+
         let db = firebase.database();
         db.ref("/conf/appel").once("value").then((s)=>{
             // console.log(s.val());
             db.ref('/appel/'+s.val()+'/index').once("value").then((s)=>{
                 this.setState({appel: s.val()});
             });
+        });
+        db.ref('/conf/appelText').once('value').then(s=>{
+           this.setState({appelText:s.val()});
         });
 
     }
@@ -51,7 +49,7 @@ export class Header extends React.Component {
 
             <div className="header" id="container" style={this.state.container}>
                 <div className="filter" style={this.state.container}>
-                    <div id="appel" className="header"><Link to={'/article/'+this.state.appel}>Appel à articles (NUMERO 20)</Link></div>
+                    <div id="appel" className="header"><Link to={'/article/'+this.state.appel}>{this.state.appelText}</Link></div>
                     <div className="header" id="inside" >
                         <a href={this.props.base}><h1 id="title" className="header">Discours, Signes et Sociétés</h1></a>
                         <h5 id="description" className="header">Revue semestrielle en sciences humaines et sociales
