@@ -185,7 +185,7 @@ export class NumeroDataPage extends React.Component {
                     articles: s.val().articles,
                     coordonnateur: s.val().coordonnateur,
                     publish: s.val().publish,
-                    ord: s.val().ord,
+                    ord: s.val().ord+1,
                     title: s.val().title,
                 });
             });
