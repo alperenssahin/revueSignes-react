@@ -45,7 +45,7 @@ export class Content extends React.Component {
 
             this.connection(id);
             let numero = [];
-            if (this.state.num.articles !== undefined) {
+            if (this.state.num.articles !== undefined && this.state.num !== undefined) {
                 // console.log(this.state.num.articles);
                 for (let x in this.state.num.articles) {
                     let base = this.state.num.articles[x];
@@ -106,7 +106,7 @@ export class Content extends React.Component {
         console.log(match.params.id);
         console.log(this.state.num);
         let numero = [];
-        if (this.state.num.articles !== undefined) {
+        if (this.state.num.articles !== undefined && this.state.num !== undefined) {
             // console.log(this.state.num.articles);
             for (let x in this.state.num.articles) {
                 let base = this.state.num.articles[x];
