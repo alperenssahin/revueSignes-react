@@ -51,7 +51,7 @@ export class Header extends React.Component {
                 <div className="filter" style={this.state.container}>
                     <div id="appel" className="header"><Link to={'/article/'+this.state.appel}>{this.state.appelText}</Link></div>
                     <div className="header" id="inside" >
-                        <a href={this.props.base}><h1 id="title" className="header">Discours, Signes et Sociétés</h1></a>
+                        <a href={this.props.base}><h1 id="title" className="header">Signes, Discours et Sociétés</h1></a>
                         <h5 id="description" className="header">Revue semestrielle en sciences humaines et sociales
                             dédiée à l'analyse des Discours</h5>
                     </div>
