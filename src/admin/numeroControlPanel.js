@@ -121,7 +121,9 @@ class RemoveNumero extends React.Component {
         if(window.confirm('Voulez-vous supprimer ce numero :'+this.props.title)){
             let db = firebase.database();
             db.ref(`/numero/${this.props.numKey}`).remove().then(()=>{
-                window.location = '/admin/numero';
+                db.ref(`/numero_titles/${this.props.numKey}`).remove().then(()=>{
+                    window.location = '/admin/numero';
+                });
             });
         }
     }
@@ -221,13 +223,17 @@ export class NumeroDataPage extends React.Component {
                 console.log(data);
             }).then(() => {
                     db.ref('/numero').push(data).then(s => {
-                        db.ref('/conf/numCount').set(data.ord + 1);
+                        db.ref(`/numero_titles/${s.key}/title`).set(data.title).then(()=>{
+                            db.ref(`/numero_titles/${s.key}/publish`).set(data.publish).then(()=>{
+                                db.ref(`/numero_titles/${s.key}/ord`).set(data.ord).then(()=>{
+                                    db.ref('/conf/numCount').set(data.ord + 1).then(()=>{
+                                        window.location = '/admin/numero';
+                                    });
+                                });
+                            });
+                        });
                     });
-                }
-            ).then(()=>{
-                window.location = '/admin/numero';
-            });
-
+                });
         }
     }
 
@@ -240,8 +246,10 @@ export class NumeroDataPage extends React.Component {
                 this.setState({message: ''});
                 let db = firebase.database();
                 db.ref(`/numero/${this.state.numKey}/title`).set(this.state.title).then(() => {
+                    db.ref(`/numero_titles/${this.state.numKey}/title`).set(this.state.title).then();
                     this.setState({message: 'Title Updated'});
                     db.ref(`/numero/${this.state.numKey}/publish`).set(this.state.publish).then(() => {
+                        db.ref(`/numero_titles/${this.state.numKey}/publish`).set(this.state.publish).then();
                         this.setState({message: 'Publish Updated'});
                         db.ref(`/numero/${this.state.numKey}/coordonnateur`).set(this.state.coordonnateur).then(() => {
                             this.setState({message: 'Coordonnateur Updated'});

@@ -75,7 +75,7 @@ export class Items extends React.Component {
             // );
             let url;
             if (this.state.url === "library") {
-                url = 'numero';
+                url = 'numero_titles';
             } else {
                 url = this.state.url;
             }
