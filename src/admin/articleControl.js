@@ -183,7 +183,9 @@ class RemoveArticle extends React.Component {
         if (window.confirm('Voulez-vous supprimer ce numero :' + this.props.title)) {
             let db = firebase.database();
             db.ref(`/numero/${this.props.numKey}/articles/${this.props.articleKey}`).remove().then(() => {
-                window.location = '/admin/numero/articles/' + this.props.articleKey;
+                db.ref(`/articles/${this.props.articleKey}`).remove().then(()=>{
+                    window.location = '/admin/numero/articles/' + this.props.articleKey;
+                });
             });
         }
     }
