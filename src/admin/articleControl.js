@@ -181,9 +181,8 @@ class RemoveArticle extends React.Component {
 
     removeHandle() {
         if (window.confirm('Voulez-vous supprimer ce article :' + this.props.title)) {
-            let db = firebase.database();
-            db.ref(`/numero/${this.props.numKey}/articles/${this.props.articleKey}`).remove().then(() => {
-                db.ref(`/articles/${this.props.articleKey}`).remove().then(()=>{
+            firebase.database().ref(`/numero/${this.props.numKey}/articles/${this.props.articleKey}`).remove().then(() => {
+                firebase.database().ref(`/articles/${this.props.articleKey}`).remove().then(()=>{
                     window.location = '/admin/numero/articles/' + this.props.numKey;
                 });
             });
