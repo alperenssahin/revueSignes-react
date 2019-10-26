@@ -68,54 +68,54 @@ class ArticleElement extends React.Component {
 
     editUpClick(e) {
         let nodes = document.querySelectorAll('.article-element.container');
-        let currentNode  = document.querySelector('#'+e.target.id.split('-up')[0]+".container");
+        let currentNode = document.querySelector('#' + e.target.id.split('-up')[0] + ".container");
         // console.log(currentNode);
         let preNode = null;
-        if(currentNode.style.order !== '1'){
-            for(let node of nodes){
-                if( Number(node.style.order) === currentNode.style.order - 1){
+        if (currentNode.style.order !== '1') {
+            for (let node of nodes) {
+                if (Number(node.style.order) === currentNode.style.order - 1) {
                     preNode = node;
                     break;
                 }
             }
-        }else{
+        } else {
             alert('First element!!');
             return;
         }
-        let preOrder =  preNode.style.order;
-        let currentOrder =  currentNode.style.order;
+        let preOrder = preNode.style.order;
+        let currentOrder = currentNode.style.order;
         let tmpOrder = preOrder;
         preNode.style.order = currentOrder;
-        currentNode.style.order =tmpOrder;
-        firebase.database().ref(`/numero/${this.props.numKey}/articles/${currentNode.id}/ord`).set(preOrder).then(()=>{
-            firebase.database().ref(`/numero/${this.props.numKey}/articles/${preNode.id}/ord`).set(currentOrder).then(()=> {
+        currentNode.style.order = tmpOrder;
+        firebase.database().ref(`/numero/${this.props.numKey}/articles/${currentNode.id}/ord`).set(preOrder).then(() => {
+            firebase.database().ref(`/numero/${this.props.numKey}/articles/${preNode.id}/ord`).set(currentOrder).then(() => {
             });
-            });
+        });
     };
 
     editDownClick(e) {
         let nodes = document.querySelectorAll('.article-element.container');
-        let currentNode  = document.querySelector('#'+e.target.id.split('-down')[0]+".container");
+        let currentNode = document.querySelector('#' + e.target.id.split('-down')[0] + ".container");
         // console.log(currentNode);
         let postNode = null;
-        if(Number(currentNode.style.order) !== nodes.length){
-            for(let node of nodes){
-                if( Number(node.style.order) === Number(currentNode.style.order )+ 1){
+        if (Number(currentNode.style.order) !== nodes.length) {
+            for (let node of nodes) {
+                if (Number(node.style.order) === Number(currentNode.style.order) + 1) {
                     postNode = node;
                     break;
                 }
             }
-        }else{
+        } else {
             alert('Last element!!');
             return;
         }
-        let postOrder =  postNode.style.order;
-        let currentOrder =  currentNode.style.order;
+        let postOrder = postNode.style.order;
+        let currentOrder = currentNode.style.order;
         let tmpOrder = postOrder;
         postNode.style.order = currentOrder;
-        currentNode.style.order =tmpOrder;
-        firebase.database().ref(`/numero/${this.props.numKey}/articles/${currentNode.id}/ord`).set(postOrder).then(()=>{
-            firebase.database().ref(`/numero/${this.props.numKey}/articles/${postNode.id}/ord`).set(currentOrder).then(()=> {
+        currentNode.style.order = tmpOrder;
+        firebase.database().ref(`/numero/${this.props.numKey}/articles/${currentNode.id}/ord`).set(postOrder).then(() => {
+            firebase.database().ref(`/numero/${this.props.numKey}/articles/${postNode.id}/ord`).set(currentOrder).then(() => {
             });
         });
     };
@@ -125,14 +125,14 @@ class ArticleElement extends React.Component {
             <div className="article-element container" id={this.props.articleKey}
                  style={{order: (this.props.data.ord)}}>
                 <div className={'article-element left-side'}>
-                    <div className={'article-element order-controller'} id={this.props.articleKey+'-order'}>
+                    <div className={'article-element order-controller'} id={this.props.articleKey + '-order'}>
                         <div className={'order-controller-up'}>
-                            <i className="material-icons" id={this.props.articleKey+"-up"}>
+                            <i className="material-icons" id={this.props.articleKey + "-up"}>
                                 arrow_drop_up
                             </i>
                         </div>
                         <div className={'order-controller-down'}>
-                            <i className="material-icons" id={this.props.articleKey+"-down"}>
+                            <i className="material-icons" id={this.props.articleKey + "-down"}>
                                 arrow_drop_down
                             </i>
                         </div>
@@ -180,12 +180,17 @@ class RemoveArticle extends React.Component {
     }
 
     removeHandle() {
-        if (window.confirm('Voulez-vous supprimer ce article :' + this.props.title)) {
-            firebase.database().ref(`/numero/${this.props.numKey}/articles/${this.props.articleKey}`).remove().then(() => {
-                firebase.database().ref(`/articles/${this.props.articleKey}`).remove().then(()=>{
-                    window.location = '/admin/numero/articles/' + this.props.numKey;
+        if (window.confirm('Voulez-vous supprimer ce article : ' + this.props.title)) {
+            let db = firebase.database();
+            db.ref(`/numero/${this.props.numKey}/articles/${this.props.articleKey}/artIndex`).once(`value`).then(s => {
+                let articleKey = s.val()['key'];
+                db.ref(`/articles/${articleKey}`).remove().then(() => {
+                    db.ref(`/numero/${this.props.numKey}/articles/${this.props.articleKey}`).remove().then(() => {
+                        window.location = '/admin/numero/articles/' + this.props.numKey;
+                    });
                 });
             });
+
         }
     }
 
