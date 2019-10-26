@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import {AdminNumeroPane,NumeroDataPage} from './numeroControlPanel.js'
 import {ArticleControlPage} from './articleControl.js';
 import {NewArticlePage} from './newarticlepage.js';
+import {EditArticle} from './editArticle.js';
 import {AppelCommunication} from './appelCommunication.js';
 import {NewAppel} from './newAppel.js';
 import {Presentation} from './presentation.js';
@@ -43,6 +44,9 @@ export class Menu extends React.Component {
     getConf(){
         return(<Configuration/>);
     }
+    editArticle({match}){
+       return( <EditArticle articleKey={match.params.id} numKey={match.params.num} relatedKey={match.params.rid}/>);
+    }
     render() {
         return (<div className="admin-menu container">
             < div className="admin-menu inside">
@@ -61,6 +65,7 @@ export class Menu extends React.Component {
                     <Route exact path="/admin/numero/:id" component={this.dataNum}/>
                     <Route exact path="/admin/numero/articles/:id" component={this.articleSelected}/>
                     <Route exact path="/admin/numero/articles/new/:id" component={this.newArticle}/>
+                    <Route exact path="/admin/numero/articles/edit/:id/:num/:rid" component={this.editArticle}/>
                     <Route exact path="/admin/appel" component={this.getApp}/>
                     <Route exact path="/admin/appel/new" component={this.getAppNew}/>
                     <Route exact path="/admin/presentation" component={this.getPre}/>

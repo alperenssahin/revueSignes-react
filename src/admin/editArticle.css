@@ -1,0 +1,42 @@
+#edit-article-textarea{
+    width: 100%;
+    min-height: 300px;
+}
+#editing-element{
+    border: 1px solid orangered;
+}
+#piece-area{
+    width: 100%;
+    min-height: 200px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+#confirm-change-button{
+    width: 50px;
+    height: 50px;
+    margin: auto;
+}
+#edit-preview{
+    cursor: pointer;
+}
+.edit-article.inside{
+    display: block;
+}
+
+.edit-article.text-box-container{
+    width: 100%;
+    margin-right: 20px;
+    display: flex;justify-content: center;
+    margin-bottom: 20px;
+}
+
+.edit-article.preview-container{
+    width: 100%;
+    height: 50vh;
+    overflow: auto;
+}
+.edit-piece-container{
+    width: 100%;
+    display: flex;
+}
+

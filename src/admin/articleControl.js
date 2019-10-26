@@ -140,6 +140,7 @@ class ArticleElement extends React.Component {
                     <div className="article-element title">{this.props.title}</div>
                 </div>
                 <div className="article-element control-panel">
+                    <EditArticle articleKey={this.props.articleKey} numKey={this.props.numKey}/>
                     <RemoveArticle articleKey={this.props.articleKey} numKey={this.props.numKey}
                                    title={this.props.title}/>
                 </div>
@@ -198,6 +199,36 @@ class RemoveArticle extends React.Component {
         return (<div className="remove-article-button container" id={"remove-article" + this.props.articleKey}><i
             className="material-icons remove-article-button ">
             restore_from_trash
+        </i></div>);
+    }
+
+}
+
+class EditArticle extends React.Component{
+    constructor(props) {
+        super(props);
+
+    }
+    componentDidMount() {
+        document.getElementById("edit-article" + this.props.articleKey).addEventListener("click", this.editHandler.bind(this));
+
+    }
+
+    componentWillUnmount() {
+        document.getElementById("edit-article" + this.props.articleKey).removeEventListener("click", this.editHandler.bind(this));
+
+    }
+    editHandler() {
+        firebase.database().ref(`/numero/${this.props.numKey}/articles/${this.props.articleKey}/artIndex`).once(`value`).then(s=>{
+            let key = Object.keys(s.val());
+            let article = s.val()[key];
+            window.location.href = `/admin/numero/articles/edit/${article}/${this.props.numKey}/${this.props.articleKey}`//last id is related article key
+        });
+    }
+    render() {
+        return (<div className="edit-article-button container" id={"edit-article" + this.props.articleKey}><i
+            className="material-icons edit-article-button ">
+            edit
         </i></div>);
     }
 

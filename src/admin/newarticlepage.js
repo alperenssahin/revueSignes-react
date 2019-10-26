@@ -134,7 +134,7 @@ export class NewArticlePage extends React.Component {
                                    });
                                });
                            }}/>
-                    <button id={"send-article"}>Mettre en Jour</button>
+                    <button id={"send-article"}>Mettre à Jour</button>
                 </div>
                 <div className="new-article-page preview">
                     <h1>{this.state.title}</h1>

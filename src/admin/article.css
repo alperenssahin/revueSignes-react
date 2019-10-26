@@ -63,3 +63,18 @@ display: flex;
 .new-article-button:hover {
     color: #4f63bc;
 }
+.edit-article-button{
+    color: #5652f5;
+    cursor: pointer;
+}
+
+.edit-article-button:hover{
+    color: #302d75;
+}
+.remove-article-button{
+    color: #a91909;
+    cursor: pointer;
+}
+.remove-article-button:hover{
+    color: #3e0101;
+}
