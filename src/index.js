@@ -24,7 +24,6 @@ firebase.initializeApp(config);
 
 
 class Base extends React.Component {
-
     render() {
         return (
             <Router>

@@ -79,13 +79,14 @@ export class Items extends React.Component {
             } else {
                 url = this.state.url;
             }
+            if(url === 'index') return;
             firebase.database().ref(`/${url}`).once("value").then((s) => {
                 // console.log(s.val());
                 const title = s.val();
                 //         // console.log(title);
                 this.setState({title});
             });
-            console.log(this.state.url, 'changed');
+            // console.log(this.state.url, 'changed');
         }
     }
 
@@ -108,7 +109,12 @@ export class Items extends React.Component {
                                    text={this.state.title[y].title}/>);
                 }
             }
-        } else {
+        } else if(this.state.url === 'index'){
+            row.push(<Item url={'/index/author'} order={1}
+                           text={'Author'}/>);
+            row.push(<Item url={'/index/keyword'} order={2}
+                           text={'Mot clés'}/>);
+        } else{
             for (let y in this.state.title) {
 
                 row.push(<Item url={'/article/' + this.state.title[y].index} order={this.state.title[y].ord}

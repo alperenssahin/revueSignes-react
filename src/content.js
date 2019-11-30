@@ -6,6 +6,8 @@ import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import 'firebase/database';
 import renderHTML from 'react-render-html';
+import {IndexPage} from "./index-page";
+import {AuthorDetail} from "./author-detail";
 
 export class Content extends React.Component {
     constructor(props) {
@@ -63,7 +65,7 @@ export class Content extends React.Component {
                         article.push(<p className="author content">{base.author.join(' et ')}</p>) :
                         article.push(<p className="author content"></p>);
                     article.push(<hr/>);
-                    numero.push(<div className="articleBox content" style={{order: (base.ord + 1)}}>{article}</div>);
+                    numero.push(<div className="articleBox content" style={{order:base.ord }}>{article}</div>);
 
                 }
             }
@@ -103,8 +105,8 @@ export class Content extends React.Component {
 
     selectedNumero({match}) {
         this.connection(match.params.id);
-        console.log(match.params.id);
-        console.log(this.state.num);
+        // console.log(match.params.id);
+        // console.log(this.state.num);
         let numero = [];
         if (this.state.num.articles !== undefined && this.state.num !== undefined) {
             // console.log(this.state.num.articles);
@@ -124,7 +126,7 @@ export class Content extends React.Component {
                     article.push(<p className="author content">{base.author.join(' et ')}</p>) :
                     article.push(<p className="author content"></p>);
                 article.push(<hr/>);
-                numero.push(<div className="articleBox content" style={{order: (base.ord + 1)}}>{article}</div>);
+                numero.push(<div className="articleBox content" style={{order: base.ord}}>{article}</div>);
 
             }
         }
@@ -144,6 +146,12 @@ export class Content extends React.Component {
             <Article url={match.params.id}/>
         </div>)
     }
+    indexPage({match}){
+            return(<IndexPage type={match.params.id}/>);
+    }
+    authorDetail({match}){
+        return(<AuthorDetail authorKey={match.params.id}/>);
+    }
 
     render() {
         //todo:menu kapatma düğmesi eklenecek, sıralama css eklentisi eklenecek
@@ -153,6 +161,8 @@ export class Content extends React.Component {
                     <Route exact path='/' component={() => this.defaultNumero(this.state.numMain)}/>
                     <Route path='/library/:id' component={this.selectedNumero}/>
                     <Route path="/article/:id" component={this.selectedArticle}/>
+                    <Route path={'/index/:id'} component={this.indexPage}/>
+                    <Route path={'/author/:id'} component={this.authorDetail}/>
                 </div>
             </div>
         )
@@ -196,7 +206,7 @@ class Article extends React.Component {
         if(this.props.url !== undefined){
             firebase.database().ref(`/articles/${this.props.url}`).once('value').then((s)=>{
                 const art = s.val();
-                console.log(art);
+                // console.log(art);
                 this.setState({art});
             }).then(
                 ()=>{

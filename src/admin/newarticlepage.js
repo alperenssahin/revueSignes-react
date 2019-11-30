@@ -57,7 +57,34 @@ export class NewArticlePage extends React.Component {
                 this.setState({processe:95});
                 firebase.database().ref(`/numero/${this.props.numKey}/articles`).push(data).then(() => {
                     this.setState({processe:100});
-                    window.location = '/admin/numero/articles/' + this.props.numKey;
+                    firebase.database().ref('/index/author').remove().then(()=>{
+                        firebase.database().ref('/numero').once('value').then(s=>{
+                            let data = s.val();
+                            let obj = {};
+                            for(let key in data){
+                                let adata = data[key].articles;
+                                for(let akey in adata){
+                                    let author = adata[akey].author;
+                                    try{
+                                        for(let aut of author){
+                                            aut = aut.toLowerCase();
+                                            if(obj[aut] === undefined){
+                                                obj[aut] = [{key:akey,num:key}];
+                                            }else{
+                                                obj[aut].push({key:akey,num:key});
+                                            }
+                                        }
+                                    }catch (e) {
+
+                                    }
+                                }
+                            }
+                            for(let at in obj){
+                                firebase.database().ref('/index/author/').push({name:at,data:obj[at]});
+                                window.location = '/admin/numero/articles/' + this.props.numKey;
+                            }
+                        });
+                    });
                 });
             });
         });
