@@ -8,12 +8,13 @@ import 'firebase/database';
 import renderHTML from 'react-render-html';
 import {IndexPage} from "./index-page";
 import {AuthorDetail} from "./author-detail";
+import {KeywordDetail} from "./keyword-detail";
 
 export class Content extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            num: {title: 'Loading..', cordonnateur: 'Loading..', articles: undefined, artIndex: undefined},
+            num: {title: 'Loading..', cordonnateur: 'Loading..', articles: undefined, artIndex: undefined,publicationDate: ""},
             numID: '',
             fireB: false,
             numMain: null,
@@ -133,6 +134,7 @@ export class Content extends React.Component {
         return (
             <div>
                 <h1 className="title content">{this.state.num.title}</h1>
+                <h4 className={"key-words"}>Date de Publication:{this.state.num.publicationDate}</h4>
                 <h5 className="coordonnateur content">{this.state.num.coordonnateur}</h5>
                 <hr/>
                 <div className="numeroName content">{numero}</div>
@@ -152,6 +154,9 @@ export class Content extends React.Component {
     authorDetail({match}){
         return(<AuthorDetail authorKey={match.params.id}/>);
     }
+    keywordDetail({match}){
+        return(<KeywordDetail keywordKey={match.params.id}/>);
+    }
 
     render() {
         //todo:menu kapatma düğmesi eklenecek, sıralama css eklentisi eklenecek
@@ -163,6 +168,7 @@ export class Content extends React.Component {
                     <Route path="/article/:id" component={this.selectedArticle}/>
                     <Route path={'/index/:id'} component={this.indexPage}/>
                     <Route path={'/author/:id'} component={this.authorDetail}/>
+                    <Route path={'/keyword/:id'} component={this.keywordDetail}/>
                 </div>
             </div>
         )

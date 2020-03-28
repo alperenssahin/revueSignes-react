@@ -20,6 +20,10 @@ border-left: 3px solid #608bf5;
     h5.coordonnateur{
         font-size: 12px;
     }
+    h4.key-words{
+        font-size: 12px;
+        font-style: italic;
+    }
     p.author{
         font-size: 8px;
     }
@@ -66,7 +70,10 @@ h4.auteur-info{
     color: #323134;
     font-size: 18px;
 }
-
+h4.key-words{
+    font-size: 12px;
+    font-style: italic;
+}
 h5.auteur-info{
     color: #323134;
     font-size: 14px;
@@ -99,7 +106,10 @@ h5.auteur-info{
     h4.auteur-info{
         font-size: 12px;
     }
-
+    h4.key-words{
+        font-size: 12px;
+        font-style: italic;
+    }
     h5.auteur-info{
         font-size: 10px;
     }

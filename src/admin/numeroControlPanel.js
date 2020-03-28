@@ -189,6 +189,7 @@ export class NumeroDataPage extends React.Component {
                     publish: s.val().publish,
                     ord: s.val().ord+1,
                     title: s.val().title,
+                    publicationDate:s.val().publicationDate,
                 });
             });
         }
@@ -216,6 +217,7 @@ export class NumeroDataPage extends React.Component {
                 title: $('#new-numero-title-ınput').val(),
                 publish: $('#new-numero-publish-ınput').is(":checked"),
                 coordonnateur: $('#new-numero-coordonnateur-ınput').val(),
+                publicationDate:$('new-numero-publication-date-ınput').val(),
                 ord: null,
             };
             db.ref('/conf/numCount').once('value').then(s => {
@@ -224,10 +226,12 @@ export class NumeroDataPage extends React.Component {
             }).then(() => {
                     db.ref('/numero').push(data).then(s => {
                         db.ref(`/numero_titles/${s.key}/title`).set(data.title).then(()=>{
-                            db.ref(`/numero_titles/${s.key}/publish`).set(data.publish).then(()=>{
-                                db.ref(`/numero_titles/${s.key}/ord`).set(data.ord).then(()=>{
-                                    db.ref('/conf/numCount').set(data.ord + 1).then(()=>{
-                                        window.location = '/admin/numero';
+                            db.ref(`/numero/${s.key}/publicationDate`).set(data.publicationDate).then(()=>{
+                                db.ref(`/numero_titles/${s.key}/publish`).set(data.publish).then(()=>{
+                                    db.ref(`/numero_titles/${s.key}/ord`).set(data.ord).then(()=>{
+                                        db.ref('/conf/numCount').set(data.ord + 1).then(()=>{
+                                            window.location = '/admin/numero';
+                                        });
                                     });
                                 });
                             });
@@ -248,12 +252,14 @@ export class NumeroDataPage extends React.Component {
                 db.ref(`/numero/${this.state.numKey}/title`).set(this.state.title).then(() => {
                     db.ref(`/numero_titles/${this.state.numKey}/title`).set(this.state.title).then();
                     this.setState({message: 'Title Updated'});
-                    db.ref(`/numero/${this.state.numKey}/publish`).set(this.state.publish).then(() => {
-                        db.ref(`/numero_titles/${this.state.numKey}/publish`).set(this.state.publish).then();
-                        this.setState({message: 'Publish Updated'});
-                        db.ref(`/numero/${this.state.numKey}/coordonnateur`).set(this.state.coordonnateur).then(() => {
-                            this.setState({message: 'Coordonnateur Updated'});
-                            window.location = '/admin/numero';
+                    db.ref(`/numero/${this.state.numKey}/publicationDate`).set(this.state.publicationDate).then(()=>{
+                        db.ref(`/numero/${this.state.numKey}/publish`).set(this.state.publish).then(() => {
+                            db.ref(`/numero_titles/${this.state.numKey}/publish`).set(this.state.publish).then();
+                            this.setState({message: 'Publish Updated'});
+                            db.ref(`/numero/${this.state.numKey}/coordonnateur`).set(this.state.coordonnateur).then(() => {
+                                this.setState({message: 'Coordonnateur Updated'});
+                                window.location = '/admin/numero';
+                            });
                         });
                     });
                 });
@@ -262,9 +268,6 @@ export class NumeroDataPage extends React.Component {
             }else{
                 this.setState({message: 'Numero ID is undefined'});
             }
-
-
-
         }
     }
 
@@ -289,6 +292,13 @@ export class NumeroDataPage extends React.Component {
                                                                    this.changeValueState('coordonnateur', e.target.value);
                                                                }}/>
                     </div>
+                    <div><strong>Date de publication:</strong><input type="text" id="new-numero-publication-date-ınput"
+                                                               value={this.state.publicationDate}
+                                                               className="new-numero text-input"
+                                                               onChange={e => {
+                                                                   this.changeValueState('publicationDate', e.target.value);
+                                                               }}/>
+                    </div>
                     <div><strong>Publish :</strong><input type="checkbox" id="new-numero-publish-ınput"/></div>
                     <div>
                         <button id="submit-new-numero">Submit</button>
@@ -311,6 +321,13 @@ export class NumeroDataPage extends React.Component {
                                                                className="edit-numero text-input" onChange={e => {
                         this.changeValueState('coordonnateur', e.target.value);
                     }}/>
+                    </div>
+                    <div><strong>Date de publication:</strong><input type="text" id="new-numero-publication-date-ınput"
+                                                                     value={this.state.publicationDate}
+                                                                     className="new-numero text-input"
+                                                                     onChange={e => {
+                                                                         this.changeValueState('publicationDate', e.target.value);
+                                                                     }}/>
                     </div>
                     <div><strong>Publish : </strong><input type="checkbox" id="edit-numero-publish-ınput"
                                                            checked={this.state.publish}

@@ -11,6 +11,7 @@ export class NewArticlePage extends React.Component {
         super(props);
         this.state = {
             arrayAuthor: [<Author count={1}/>],
+            keywords:[],
             title: "", errorMessage: "", fireIndex: "",
             processe:0,
         };
@@ -34,9 +35,11 @@ export class NewArticlePage extends React.Component {
     async sendHandler() {
         let data = {
             author: [],
+            keywords: this.state.keywords,
             title: this.state.title,
             ord: "",
             artIndex: {},
+            publicationDate:"",
         }
         $.each($('.auteur-info.name'), (i, v) => {
             data.author.push(v.textContent);
@@ -58,31 +61,53 @@ export class NewArticlePage extends React.Component {
                 firebase.database().ref(`/numero/${this.props.numKey}/articles`).push(data).then(() => {
                     this.setState({processe:100});
                     firebase.database().ref('/index/author').remove().then(()=>{
-                        firebase.database().ref('/numero').once('value').then(s=>{
-                            let data = s.val();
-                            let obj = {};
-                            for(let key in data){
-                                let adata = data[key].articles;
-                                for(let akey in adata){
-                                    let author = adata[akey].author;
-                                    try{
-                                        for(let aut of author){
-                                            aut = aut.toLowerCase();
-                                            if(obj[aut] === undefined){
-                                                obj[aut] = [{key:akey,num:key}];
-                                            }else{
-                                                obj[aut].push({key:akey,num:key});
+                        firebase.database().ref('/index/keyword').remove().then(()=>{
+                            firebase.database().ref('/numero').once('value').then(s=>{
+                                let data = s.val();
+                                let obj = {};
+                                let kw = {};
+                                for(let key in data){
+                                    let adata = data[key].articles;
+                                    for(let akey in adata){
+                                        let author = adata[akey].author;
+                                        try{
+                                            for(let aut of author){
+                                                aut = aut.toLowerCase();
+                                                if(obj[aut] === undefined){
+                                                    obj[aut] = [{key:akey,num:key}];
+                                                }else{
+                                                    obj[aut].push({key:akey,num:key});
+                                                }
                                             }
+                                        }catch (e) {
                                         }
-                                    }catch (e) {
-
+                                        let keywords_ = adata[akey].keywords;
+                                        try{
+                                            for(let keyword of keywords_){
+                                                keyword = keyword.toLowerCase();
+                                                if(kw[keyword] === undefined){
+                                                    kw[keyword] = [{key:akey,num:key}];
+                                                }else{
+                                                    kw[keyword].push({key:akey,num:key});
+                                                }
+                                            }
+                                        }catch (e) {
+                                        }
                                     }
                                 }
-                            }
-                            for(let at in obj){
-                                firebase.database().ref('/index/author/').push({name:at,data:obj[at]});
-                                window.location = '/admin/numero/articles/' + this.props.numKey;
-                            }
+                                let promises = [];
+                                for(let at in obj){
+                                    let res1 = firebase.database().ref('/index/author/').push({name:at,data:obj[at]});
+                                    promises.push(res1);
+                                }
+                                for(let keyw in kw){
+                                    let res1 = firebase.database().ref('/index/keyword/').push({name:keyw,data:kw[keyw]});
+                                    promises.push(res1);
+                                }
+                                Promise.all(promises).then(()=>{
+                                    window.location = '/admin/numero/articles/' + this.props.numKey;
+                                });
+                            });
                         });
                     });
                 });
@@ -134,6 +159,23 @@ export class NewArticlePage extends React.Component {
                                    this.changeValueState('title', e.target.value);
                                }}/>
                     </div>
+                    <div className="new-article-page form row">
+                        <strong>Date De Publication </strong>
+                        <input type={"text"} placeholder={"DD/MM/YYYY"} id={"date-input"} className={"form"} onChangeCapture={(e)=>{
+                                this.setState({publicationDate:e.target.value});
+                        }}/>
+                    </div>
+                    <div className="new-article-page form row">
+                        <strong>Mot Clés</strong>
+                        <input type={"text"} placeholder={"ex:mot1,mot2,mot3(sans espace)"} id={"key-word-input"} className={"form"} onChangeCapture={(e)=>{
+                            let keywords = e.target.value.split(",");
+                            if(keywords[0] === ""){
+                                this.setState({keywords:[]});
+                            }else{
+                                this.setState({keywords:keywords});
+                            }
+                        }}/>
+                    </div>
                     <hr/>
                     <div className="author-control-pane">
                         Auteur :
@@ -165,7 +207,9 @@ export class NewArticlePage extends React.Component {
                 </div>
                 <div className="new-article-page preview">
                     <h1>{this.state.title}</h1>
+                    <h4 className={"key-words publication-date"}>{this.state.publicationDate}</h4>
                     {authorBox}
+                    <h4 className={"key-words data"}>{this.state.keywords.length !== 0 ? '"'+this.state.keywords.join(", ")+'"': ""}</h4>
                     <hr/>
                     <div className="new-article-file"></div>
                 </div>
@@ -237,7 +281,6 @@ class Author extends React.Component {
 
         return (<div className="author-box">
                 <hr/>
-
                 <div>
                     <strong className={"author-count"}>
                     {this.props.count}. Auteur
@@ -290,5 +333,4 @@ class Author extends React.Component {
             </div>
         );
     }
-
 }
